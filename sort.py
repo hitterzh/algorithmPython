@@ -1,4 +1,13 @@
 
+"""
+sort keypoint:
+1. algorithm
+2. complex(time and space)
+最优、最差、平均
+can improve?
+3. feature
+4. correctness (how to prove)
+"""
 
 def selection_sort(arr):
     lengeth = len(arr)
@@ -92,5 +101,69 @@ def shell_sort(collection):
                 collection[j], collection[j - gap] = collection[j - gap], collection[j]
                 j -= gap
     return collection
+
+
+def merge(left, right):
+    new_arr = []
+    i = 0
+    j = 0
+    while i < len(left) and j < len(right):
+        if i == len(left) - 1:
+            new_arr.append(right[j:])
+            j = len(right)
+        elif j == len(right) - 1:
+            new_arr.append(left[i:])
+            i = len(right)
+        elif left[i] < right[j]:
+            new_arr.append(left[i])
+            i += 1
+        else:
+            new_arr.append(right[j])
+            j += 1
+
+    return new_arr
+
+
+def merge_sort(arr):
+
+    length = len(arr)
+    if length < 2:
+        return arr
+
+    return merge(merge_sort(arr[:length//2]), merge_sort(arr[length//2:length]))
+
+
+def quick_sort(arr):
+    def quick_iter(arr, l, r):
+        if l < r:
+            i = l
+            j = r
+            x = arr[i]
+            while i < j :
+                while i < j and x <= arr[j]:
+                    j -= 1
+
+                if i < j:
+                    arr[i] = arr[j]
+
+                while i < j and x >= arr[j]:
+                    i += 1
+
+                if i < j:
+                    arr[j] = arr[i]
+            arr[i] = x
+
+            quick_iter(arr, l, i)
+            quick_iter(arr, i+1, r)
+
+
+    length = len(arr)
+    if length < 2:
+        return arr
+
+    quick_iter(arr, 0, length - 1)
+
+    return arr
+
 
 
